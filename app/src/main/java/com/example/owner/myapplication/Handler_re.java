@@ -26,15 +26,25 @@ public class Handler_re extends AppCompatActivity {
         final TextView textView_handler = findViewById(R.id.textView_handler);
 
 
-        final Looper mainLooper = Looper.getMainLooper();
 
+        Looper mainLooper = Looper.getMainLooper();
         final Handler mainHandler = new Handler(mainLooper) {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                textView_handler.setText("done!");
-
+                switch (msg.what) {
+                    case (MyHandlerThread.WRITE_DONE):
+                        textView_handler.setText("Done!");
+                        break;
+                    case (MyHandlerThread.WRITE_NUMBER):
+                        textView_handler.setText(msg.obj.toString());
+                        break;
+                    case (MyHandlerThread.WRITE_CANCEL):
+                        textView_handler.setText("Cancelled!");
+                        break;
                 }
+
+            }
         };
 
         HandlerThread handlerThread = new HandlerThread("MyHandlerThread");
@@ -50,8 +60,7 @@ public class Handler_re extends AppCompatActivity {
 
                 if (thread[0] == null) {
                     thread[0] = new MyHandlerThread(mainHandler);
-                    Intent intent = new Intent(Handler_re.this, Handler_re.class);
-                    startActivity(intent);
+
                 }
             }
         });
@@ -63,8 +72,7 @@ public class Handler_re extends AppCompatActivity {
                 if (thread[0] != null) {
                     handler.post(thread[0]);
                 } else {
-                    Intent intent = new Intent(Handler_re.this, Handler_re.class);
-                    startActivity(intent);
+
                     Snackbar.make(view, "startButton", 500).show();
                 }
             }
@@ -73,8 +81,7 @@ public class Handler_re extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Handler_re.this, Handler_re.class);
-                startActivity(intent);
+
                 if (thread[0] != null)
                 {
                     thread[0].cancel();
