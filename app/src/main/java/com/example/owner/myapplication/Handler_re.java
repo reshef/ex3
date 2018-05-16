@@ -34,13 +34,13 @@ public class Handler_re extends AppCompatActivity {
                 super.handleMessage(msg);
                 switch (msg.what) {
                     case (MyHandlerThread.WRITE_DONE):
-                        textView_handler.setText("Done!");
+                        textView_handler.setText("push_done!");
                         break;
                     case (MyHandlerThread.WRITE_NUMBER):
                         textView_handler.setText(msg.obj.toString());
                         break;
                     case (MyHandlerThread.WRITE_CANCEL):
-                        textView_handler.setText("Cancelled!");
+                        textView_handler.setText("push_cancelled!");
                         break;
                 }
 
